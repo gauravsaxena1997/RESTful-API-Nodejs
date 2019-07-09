@@ -1,10 +1,15 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
-
+mongoose.connect("mongodb+srv://gurvsxen1997:"
+                + process.env.MONGO_ATLAS_PWD 
+                +"@restful-api-hgg0l.mongodb.net/test?retryWrites=true&w=majority",{
+                    useNewUrlParser: true
+                });
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
