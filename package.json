@@ -1,0 +1,22 @@
+{
+  "name": "restful-api-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravsaxena1997/RESTful-API-Nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gauravsaxena1997/RESTful-API-Nodejs/issues"
+  },
+  "homepage": "https://github.com/gauravsaxena1997/RESTful-API-Nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
