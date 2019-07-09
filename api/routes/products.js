@@ -3,9 +3,16 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Product = require('../models/product');
 router.get('/',(req,res,next)=>{
-    res.status(200).json({
-        message: 'Handling GET requests to /products'
-    });
+    Product.find()
+        .exec()
+        .then(docs=>{
+            console.log(docs);
+            res.status(200).json(docs);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 router.post('/',(req,res,next)=>{
     const product = new  Product({
@@ -47,9 +54,16 @@ router.patch('/:productId',(req,res,next)=>{
     });
 });
 router.delete('/:productId',(req,res,next)=>{
-    res.status(200).json({
-        message: 'Delete successfully.',
-        id: req.params.productId
+    const id = req.params.productId;
+    Product.remove({_id: id})
+    .exec()
+    .then(docs=>{
+        console.log(docs);
+        res.status(200).json(docs);
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json(err);
     });
 });
 
