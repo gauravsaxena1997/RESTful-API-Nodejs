@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_PWD": "gurvmongo2485",
-        "PORT": "3200"
+        "PORT": "3200",
+        "JWT_KEY": "secretkey"
     }
 }
