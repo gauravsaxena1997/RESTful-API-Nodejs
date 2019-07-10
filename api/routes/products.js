@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const Product = require('../models/product');
-const checkAuth = require('../../middleware/check-auth');
+const checkAuth = require('../middleware/check-auth');
 router.get('/',(req,res,next)=>{
     const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     Product.find()
