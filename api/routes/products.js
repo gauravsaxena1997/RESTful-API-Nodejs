@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const Product = require('../models/product');
+const checkAuth = require('../../middleware/check-auth');
 router.get('/',(req,res,next)=>{
     const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     Product.find()
@@ -28,7 +29,7 @@ router.get('/',(req,res,next)=>{
             res.status(500).json(err);
         });
 });
-router.post('/',(req,res,next)=>{
+router.post('/', checkAuth,(req,res,next)=>{
     const product = new  Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -73,7 +74,7 @@ router.get('/:productId',(req,res,next)=>{
             res.status(500).json({error: err});
         });
 });
-router.patch('/:productId',(req,res,next)=>{
+router.patch('/:productId', checkAuth,(req,res,next)=>{
     const id = req.params.productId;
     const updateOps = {};
     for (const ops of req.body){
@@ -90,7 +91,7 @@ router.patch('/:productId',(req,res,next)=>{
             res.status(500).json({error: err});
         });
 });
-router.delete('/:productId',(req,res,next)=>{
+router.delete('/:productId', checkAuth, (req,res,next)=>{
     const id = req.params.productId;
     Product.remove({_id: id})
     .exec()
