@@ -44,7 +44,7 @@ router.post('/',(req,res,next)=>{
                         id: result._id
                     }
                 }
-                res.status(200).json(response);
+                res.status(201).json(response);
             })
             .catch(err=>{
                 res.status(500).json({error:err});
@@ -62,7 +62,7 @@ router.get('/:productId',(req,res,next)=>{
                     product: doc,
                     request: {
                         type: 'GET',
-                        url: req.protocol + '://' + req.get('host') + req.originalUrl
+                        url: req.protocol + '://' + req.get('host') + '/products'
                     }
                 });
             } 

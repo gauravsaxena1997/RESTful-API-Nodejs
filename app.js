@@ -10,6 +10,7 @@ mongoose.connect("mongodb+srv://gurvsxen1997:"
                 +"@restful-api-hgg0l.mongodb.net/test?retryWrites=true&w=majority",{
                     useNewUrlParser: true
                 });
+mongoose.Promise = global.Promise;
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
