@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 mongoose.connect("mongodb+srv://gurvsxen1997:"
                 + process.env.MONGO_ATLAS_PWD 
                 +"@restful-api-hgg0l.mongodb.net/test?retryWrites=true&w=majority",{
@@ -27,6 +28,7 @@ app.use((req,res,next)=>{
 
 app.use('/products',productRoutes);
 app.use('/orders',orderRoutes);
+app.use('/users',userRoutes);
 
 
 app.use((req,res,next)=>{
