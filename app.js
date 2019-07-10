@@ -9,6 +9,7 @@ const userRoutes = require('./api/routes/users');
 mongoose.connect("mongodb+srv://gurvsxen1997:"
                 + process.env.MONGO_ATLAS_PWD 
                 +"@restful-api-hgg0l.mongodb.net/test?retryWrites=true&w=majority",{
+                    useCreateIndex: true,
                     useNewUrlParser: true
                 });
 mongoose.Promise = global.Promise;
