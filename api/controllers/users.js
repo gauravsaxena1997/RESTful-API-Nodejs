@@ -38,6 +38,11 @@ exports.user_signup = (req,res,next)=>{
                     message: 'User already exists.'
                 })
             } else {
+                if(!req.body.password){
+                    return res.status(404).json({
+                        message: 'Password is required.'
+                    });                    
+                }
                 bcrypt.hash(req.body.password, 10, (err,hash)=>{
                     if (err) {
                         res.status(500).json({
@@ -66,12 +71,25 @@ exports.user_signup = (req,res,next)=>{
 }
 
 exports.user_login = (req,res,next)=>{
+    if(!req.body.email && !req.body.password){
+        return res.status(404).json({
+            message: 'Email and password is required.'
+        })
+    } else if(!req.body.email){
+        return res.status(404).json({
+            message: 'Email is required.'
+        })
+    } else if (!req.body.password){
+        return res.status(404).json({
+            message: 'Password is required.'
+        })
+    }
     User.find({email:req.body.email})
         .exec()
         .then(user=>{
             if(user.length<1){
                 return res.status(401).json({
-                    message: 'Auth fails!'
+                    message: 'User is not existed, signup first!'
                 })
             }
             bcrypt.compare(req.body.password,user[0].password,(err,result)=>{
@@ -91,7 +109,7 @@ exports.user_login = (req,res,next)=>{
                 })
             } else {
                 res.status(401).json({
-                    message: 'Auth fails!'
+                    message: 'Incorrect password!'
                 })  
             }
         }) }) 
