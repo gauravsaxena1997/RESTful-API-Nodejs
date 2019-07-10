@@ -8,6 +8,7 @@ router.get('/',(req,res,next)=>{
     const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     Order.find()
         .select('_id quantity product')
+        .populate('product', 'name')
         .exec()
         .then(orders=>{
             const response = {
@@ -70,6 +71,7 @@ router.get('/:orderId',(req,res,next)=>{
     const id  = req.params.orderId;
     Order.findById(id)
         .select('_id quantity product')
+        .populate('product')
         .exec()
         .then(doc=>{
             if(doc){
