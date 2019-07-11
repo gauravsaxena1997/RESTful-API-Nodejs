@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
+const multer = require('multer');
 const Product = require('../models/product');
 
 exports.get_all_products = (req,res,next)=>{
     const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let distinct_names;
+    Product.find().distinct('name').exec().then(coll=>{
+        distinct_names= coll;
+    })
     Product.find()
-        .select('_id name price')
+        .select('_id name price productImage')
         .exec()
         .then(docs=>{
+
             const response = {
                 count: docs.length,
                 products: docs.map(doc=>{
@@ -14,11 +20,13 @@ exports.get_all_products = (req,res,next)=>{
                         name: doc.name,
                         price: doc.price,
                         id: doc._id,
+                        productImage: doc.productImage,
                         request: {
                             type: 'GET',
                             url: fullUrl + "/" +doc._id
                         }
-                }})
+                }}),
+                distinct_names: distinct_names
             };
             res.status(200).json(response);
         })
@@ -32,7 +40,8 @@ exports.create_product = (req,res,next)=>{
     const product = new  Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: 'uploads/'+req.file.originalname
     });
     product.save()
             .then(result=>{
@@ -41,7 +50,8 @@ exports.create_product = (req,res,next)=>{
                     createdProduct: {
                         name: result.name,
                         price: result.price,
-                        id: result._id
+                        id: result._id,
+                        productImage: result.productImage
                     }
                 }
                 res.status(201).json(response);
@@ -55,7 +65,7 @@ exports.create_product = (req,res,next)=>{
 exports.product_details = (req,res,next)=>{
     const id = req.params.productId;
     Product.findById(id)
-        .select('_id name price')
+        .select('_id name price productImage')
         .exec()
         .then(doc=>{
             if(doc){
